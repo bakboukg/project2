@@ -1,0 +1,99 @@
+<html>
+<head>
+<title>Software Development - Shakespeare Demo Program</title>
+<META AUTHOR="Jim Skon">
+</head>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+  <!-- $Id: name_stats_ajax.html,v 1.6 skon Exp $ -->
+<link rel="stylesheet" type="text/css" href="word_stats_ajax.css">
+  <title>GNU Shakespeare</title>
+</head>
+
+<script type = "text/javascript">
+var XMLHttp;
+if(navigator.appName == "Microsoft Internet Explorer") {
+    XMLHttp = new ActiveXObject("Microsoft.XMLHTTP");
+} else {
+    XMLHttp = new XMLHttpRequest();
+}
+
+// Build output table from comma delimited list
+function nameTable(list) {
+var result = '<table border="2"><tr><th>Name</th><th>%</th><th>Rank</th><tr>';
+  var a = list.split(",");
+  var aLen = a.length;
+  for (var i = 0; i < aLen; i+=3) {
+     result += "<tr><td>"+a[i]+"</td><td>"+a[i+1]+"</td><td>"+a[i+2]+"</td><tr>";
+  }
+  result += "</table>";
+
+  return result;
+}
+			
+// return the value of the radio button that is checked
+// return an empty string if none are checked, or
+// there are no radio buttons
+function getCheckedValue(radioObj) {
+  if(!radioObj)
+     return "";
+  var radioLength = radioObj.length;
+  if(radioLength == undefined)
+     if(radioObj.checked)
+        return radioObj.value;
+     else
+        return "";
+  for(var i = 0; i < radioLength; i++) {
+     if(radioObj[i].checked) {
+        return radioObj[i].value;
+     }
+   }
+    return "";
+}
+function getresponse () {
+
+	var word = document.getElementById('word').value;		     
+     if (word.length < 1) return;
+
+	XMLHttp.open("GET", "/cgi-bin/bakboukg_wordfetchajax.cgi?" + "&word=" + word
+						 ,true);
+                       
+	XMLHttp.onreadystatechange=function() {
+
+document.getElementById('response_area').innerHTML = XMLHttp.responseText;	
+	  }
+	     XMLHttp.send(null);
+  }
+		       
+</script>
+
+<body>
+<h1>Software Development - Shakespeare Demo Program</h1>
+<p>This program is designed to demonstrate a simple client/server program. 
+A server program runs in the background, waiting for a word requests.  When it receives a search word request
+it returns the matching data.
+<p>  The reason for such a architecture is to allow a simple program, with a MAP preloaded with data,
+to quickly provide results without incurring the overhead of a reloading the full workof Shakespeare for each request. 
+<br> ( Jim Skon's original, editted by Ghada Bakbouk)
+
+<hr>
+Word to look up in Shakespeare: 
+<input name="word" type="text" id=word maxlength=30></td>
+
+<p>
+  <input type="button" onclick="javascript: getresponse ()" name="submit" value="Submit" />
+  </p>
+
+
+<div id = "response_area">
+</div>
+
+
+</body>
+</html>
+
+
+
+
+
