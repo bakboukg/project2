@@ -15,13 +15,17 @@
 ***************************************************************************/
 #include <sys/types.h>
 #include <sys/wait.h>
+<<<<<<< HEAD
 #include <unistd.h> //this change is to test git by Ghada
+=======
+#include <unistd.h> 
+>>>>>>> 7b0b84f3a74f87c0e7167768003efd97433e4ec7
 #include <fcntl.h>
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <iostream>
 #include <fstream>
-#include <map>
+#include <map> //this is to test git again, Ghada
 #include "fifo.h"
 #include <cstdlib>
 #include <string>
